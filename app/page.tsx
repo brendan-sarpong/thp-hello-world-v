@@ -129,7 +129,7 @@ export default function Home() {
               LionDine connectivity &amp; more coming soon!
             </p>
             <p className="max-w-xl text-sm text-slate-400 sm:text-[0.95rem]">
-              Capture the meals that defined your semester across Columbia&apos;s dining halls. Rate, remember, and compare like a campus Letterboxd for food.
+              Rate the meals that defined your semester across Columbia&apos;s dining halls. Like Letterboxd for food.
             </p>
           </div>
           <div className="flex items-center gap-3 self-start rounded-full border border-sky-400/40 bg-slate-900/40 px-3 py-1.5 shadow-sm shadow-sky-900/40 backdrop-blur sm:self-auto">
