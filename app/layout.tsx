@@ -13,7 +13,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "LionDine",
+  title: "RoareeReview",
   description: "Rate and remember Columbia dining hall meals",
 };
 

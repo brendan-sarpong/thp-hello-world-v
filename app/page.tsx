@@ -11,12 +11,15 @@ type DiningHall =
   | "Grace Dodge"
   | "Diana's";
 
+type CrowdLevel = "Chill" | "Typical" | "Packed";
+
 type MealEntry = {
   id: number;
   hall: DiningHall;
   name: string;
   description: string;
   rating: number;
+  crowd: CrowdLevel;
   imageUrl: string | null;
   createdAt: string;
 };
@@ -31,12 +34,15 @@ const halls: DiningHall[] = [
   "Diana's",
 ];
 
+const crowdLevels: CrowdLevel[] = ["Chill", "Typical", "Packed"];
+
 export default function Home() {
   const [darkMode, setDarkMode] = useState(true);
   const [hall, setHall] = useState<DiningHall>("John Jay");
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
   const [rating, setRating] = useState(4);
+  const [crowdLevel, setCrowdLevel] = useState<CrowdLevel>("Typical");
   const [imageFile, setImageFile] = useState<File | null>(null);
   const [imagePreview, setImagePreview] = useState<string | null>(null);
   const [meals, setMeals] = useState<MealEntry[]>([]);
@@ -63,6 +69,12 @@ export default function Home() {
     ? "border-slate-700/70"
     : "border-slate-200";
 
+  const cycleCrowdLevel = () => {
+    const index = crowdLevels.indexOf(crowdLevel);
+    const next = crowdLevels[(index + 1) % crowdLevels.length];
+    setCrowdLevel(next);
+  };
+
   const handleImageChange = (file: File | null) => {
     if (!file) {
       setImageFile(null);
@@ -79,6 +91,7 @@ export default function Home() {
     setDescription("");
     setRating(4);
     setHall("John Jay");
+    setCrowdLevel("Typical");
     setImageFile(null);
     setImagePreview(null);
   };
@@ -95,6 +108,7 @@ export default function Home() {
       name: name.trim(),
       description: description.trim(),
       rating,
+       crowd: crowdLevel,
       imageUrl,
       createdAt,
     };
@@ -119,21 +133,22 @@ export default function Home() {
     <main
       className={`${themeBackground} ${themeForeground} min-h-screen transition-colors duration-300`}
     >
-      <div className="mx-auto flex max-w-6xl flex-col gap-8 px-4 pb-10 pt-8 sm:px-6 lg:px-8 lg:pt-10">
-        <header className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+      <div className="mx-auto flex max-w-5xl flex-col gap-8 px-4 pb-10 pt-8 sm:px-6 lg:px-8 lg:pt-12">
+        <header className="flex flex-col items-center gap-4 text-center sm:gap-5">
           <div className="space-y-2">
             <h1 className="text-balance text-3xl font-semibold tracking-tight sm:text-4xl">
-              LionDine
+              RoareeReview
             </h1>
             <p className="text-sm font-medium tracking-wide text-sky-200 sm:text-base">
               LionDine connectivity &amp; more coming soon!
             </p>
-            <p className="max-w-xl text-sm text-slate-400 sm:text-[0.95rem]">
-              Rate the meals that defined your semester across Columbia&apos;s dining halls. Like Letterboxd for food.
-            </p>
           </div>
-          <div className="flex items-center gap-3 self-start rounded-full border border-sky-400/40 bg-slate-900/40 px-3 py-1.5 shadow-sm shadow-sky-900/40 backdrop-blur sm:self-auto">
-            <span className="text-xs font-medium uppercase tracking-[0.2em] text-slate-300">
+          <div className="flex items-center gap-3 rounded-full border border-sky-400/40 bg-slate-900/40 px-3 py-1.5 shadow-sm shadow-sky-900/40 backdrop-blur">
+            <span
+              className={`text-xs font-medium uppercase tracking-[0.2em] ${
+                darkMode ? "text-slate-200" : "text-slate-800"
+              }`}
+            >
               Mode
             </span>
             <button
@@ -166,7 +181,11 @@ export default function Home() {
         >
           <div className="flex flex-col gap-6">
             <div className="flex items-center justify-between gap-2">
-              <h2 className="text-sm font-semibold uppercase tracking-[0.2em] text-slate-300">
+              <h2
+                className={`text-sm font-semibold uppercase tracking-[0.2em] ${
+                  darkMode ? "text-slate-200" : "text-slate-800"
+                }`}
+              >
                 New meal log
               </h2>
               <span className="rounded-full bg-slate-900/60 px-2.5 py-1 text-[0.7rem] font-medium uppercase tracking-[0.22em] text-sky-200">
@@ -175,14 +194,20 @@ export default function Home() {
             </div>
             <div className="flex flex-col gap-4">
               <div className="grid gap-3 sm:grid-cols-2">
-                <label className="flex flex-col gap-1.5 text-xs font-medium text-slate-300">
+                <label
+                  className={`flex flex-col gap-1.5 text-xs font-medium ${
+                    darkMode ? "text-slate-200" : "text-slate-800"
+                  }`}
+                >
                   Dining hall
                   <div className={`flex items-center gap-2 rounded-2xl border ${themeBorderSubtle} ${themeSurfaceMuted} px-3 py-2.5`}>
                     <span className="h-1.5 w-1.5 rounded-full bg-sky-400" />
                     <select
                       value={hall}
                       onChange={(e) => setHall(e.target.value as DiningHall)}
-                      className="w-full bg-transparent text-sm text-slate-50 outline-none"
+                      className={`w-full bg-transparent text-sm outline-none ${
+                        darkMode ? "text-slate-50" : "text-slate-900"
+                      }`}
                     >
                       {halls.map((h) => (
                         <option
@@ -196,18 +221,28 @@ export default function Home() {
                     </select>
                   </div>
                 </label>
-                <label className="flex flex-col gap-1.5 text-xs font-medium text-slate-300">
+                <label
+                  className={`flex flex-col gap-1.5 text-xs font-medium ${
+                    darkMode ? "text-slate-200" : "text-slate-800"
+                  }`}
+                >
                   Meal title
                   <input
                     value={name}
                     onChange={(e) => setName(e.target.value)}
-                    placeholder="For example, Late-night waffle stack"
-                    className={`rounded-2xl border ${themeBorderSubtle} ${themeSurfaceMuted} px-3 py-2.5 text-sm text-slate-50 placeholder:text-slate-500 outline-none ring-0 focus:border-sky-400 focus:outline-none`}
+                    placeholder="Meal name"
+                    className={`rounded-2xl border ${themeBorderSubtle} ${themeSurfaceMuted} px-3 py-2.5 text-sm placeholder:text-slate-500 outline-none ring-0 focus:border-sky-400 focus:outline-none ${
+                      darkMode ? "text-slate-50" : "text-slate-900"
+                    }`}
                   />
                 </label>
               </div>
 
-              <label className="flex flex-col gap-1.5 text-xs font-medium text-slate-300">
+              <label
+                className={`flex flex-col gap-1.5 text-xs font-medium ${
+                  darkMode ? "text-slate-200" : "text-slate-800"
+                }`}
+              >
                 Snapshot
                 <div
                   className={`grid gap-3 rounded-2xl border ${themeBorderSubtle} ${themeSurfaceMuted} p-3 sm:grid-cols-[minmax(0,1.1fr)_minmax(0,1.1fr)]`}
@@ -217,7 +252,7 @@ export default function Home() {
                       Upload photo
                     </span>
                     <span className="max-w-[14rem] text-[0.7rem] text-slate-400">
-                      JPG or PNG, up to 4 MB. Plate, tray, or close-up is welcome.
+                      JPG or PNG, up to 4 MB.
                     </span>
                     <input
                       type="file"
@@ -247,50 +282,61 @@ export default function Home() {
               </label>
 
               <div className="grid gap-3 sm:grid-cols-[minmax(0,1.5fr)_minmax(0,0.8fr)]">
-                <label className="flex flex-col gap-1.5 text-xs font-medium text-slate-300">
+                <label
+                  className={`flex flex-col gap-1.5 text-xs font-medium ${
+                    darkMode ? "text-slate-200" : "text-slate-800"
+                  }`}
+                >
                   Notes
                   <textarea
                     value={description}
                     onChange={(e) => setDescription(e.target.value)}
                     rows={3}
-                    placeholder="Atmosphere, line length, how it actually tasted once you sat down."
-                    className={`resize-none rounded-2xl border ${themeBorderSubtle} ${themeSurfaceMuted} px-3 py-2.5 text-sm text-slate-50 placeholder:text-slate-500 outline-none focus:border-sky-400`}
+                    placeholder="Quick thoughts on the meal."
+                    className={`resize-none rounded-2xl border ${themeBorderSubtle} ${themeSurfaceMuted} px-3 py-2.5 text-sm placeholder:text-slate-500 outline-none focus:border-sky-400 ${
+                      darkMode ? "text-slate-50" : "text-slate-900"
+                    }`}
                   />
                 </label>
                 <div className="flex flex-col gap-3 rounded-2xl border border-slate-800 bg-slate-950/40 p-3">
-                  <span className="text-xs font-semibold uppercase tracking-[0.22em] text-slate-300">
-                    Rating
-                  </span>
-                  <div className="flex items-center justify-between gap-3">
-                    <div className="inline-flex rounded-full bg-slate-900/80 p-1 text-sm text-slate-100 shadow-inner shadow-slate-950/40">
-                      {Array.from({ length: 5 }).map((_, index) => {
-                        const value = index + 1;
-                        const active = rating >= value;
-                        return (
-                          <button
-                            key={value}
-                            type="button"
-                            onClick={() => setRating(value)}
-                            className={`flex h-8 min-w-[2.4rem] items-center justify-center rounded-full px-2 text-xs font-medium transition ${
-                              active
-                                ? "bg-sky-400 text-slate-950"
-                                : "text-slate-300 hover:bg-slate-800/80"
-                            }`}
-                          >
-                            {value}
-                          </button>
-                        );
-                      })}
-                    </div>
-                    <div className="flex flex-col items-end text-right">
-                      <span className="text-xs font-semibold text-slate-200">
-                        {rating} / 5
-                      </span>
-                      <span className="text-[0.7rem] text-slate-500">
-                        Higher is better
-                      </span>
-                    </div>
+                  <div className="flex items-center justify-between">
+                    <span className="text-xs font-semibold uppercase tracking-[0.22em] text-slate-200">
+                      Rating
+                    </span>
+                    <span className="text-[0.7rem] text-slate-500">
+                      {rating} / 5
+                    </span>
                   </div>
+                  <div className="flex items-center gap-1.5 pt-1">
+                    {Array.from({ length: 5 }).map((_, index) => {
+                      const value = index + 1;
+                      const active = rating >= value;
+                      return (
+                        <button
+                          key={value}
+                          type="button"
+                          onClick={() => setRating(value)}
+                          className={`flex h-8 w-8 items-center justify-center rounded-full border text-base transition ${
+                            active
+                              ? "border-sky-400 bg-sky-400/10 text-sky-300"
+                              : "border-slate-700 bg-slate-900 text-slate-500 hover:border-slate-500"
+                          }`}
+                        >
+                          ★
+                        </button>
+                      );
+                    })}
+                  </div>
+                  <button
+                    type="button"
+                    onClick={cycleCrowdLevel}
+                    className="mt-3 inline-flex items-center justify-between rounded-full border border-slate-700 bg-slate-950/50 px-3 py-1.5 text-[0.7rem] font-medium uppercase tracking-[0.18em] text-slate-200 hover:border-sky-400 hover:text-sky-200"
+                  >
+                    <span>Crowd</span>
+                    <span className="rounded-full bg-slate-900 px-2 py-0.5 text-[0.68rem] normal-case tracking-normal text-sky-200">
+                      {crowdLevel}
+                    </span>
+                  </button>
                 </div>
               </div>
 
@@ -317,12 +363,13 @@ export default function Home() {
           <div className="flex flex-col gap-4 border-t border-slate-800/70 pt-4 sm:border-l sm:border-t-0 sm:pl-6 sm:pt-0 lg:pl-8">
             <div className="flex flex-wrap items-center justify-between gap-3">
               <div className="space-y-1">
-                <h2 className="text-sm font-semibold uppercase tracking-[0.2em] text-slate-300">
+                <h2
+                  className={`text-sm font-semibold uppercase tracking-[0.2em] ${
+                    darkMode ? "text-slate-200" : "text-slate-800"
+                  }`}
+                >
                   Your dining log
                 </h2>
-                <p className="text-xs text-slate-500">
-                  Filter by hall or sort by rating to find your next repeat.
-                </p>
               </div>
               <div className="flex flex-wrap gap-2 text-xs">
                 <select
@@ -374,10 +421,7 @@ export default function Home() {
             {filteredAndSortedMeals.length === 0 ? (
               <div className="mt-4 flex flex-1 flex-col items-center justify-center rounded-2xl border border-dashed border-slate-800 bg-slate-950/40 px-4 py-10 text-center">
                 <p className="text-sm font-medium text-slate-200">
-                  No meals logged yet.
-                </p>
-                <p className="mt-1 max-w-sm text-xs text-slate-500">
-                  Start with whatever you last grabbed on campus and build your own Columbia dining history.
+                  No meals yet. Log your first RoareeReview.
                 </p>
               </div>
             ) : (
@@ -413,12 +457,20 @@ export default function Home() {
                             </div>
                           </div>
                           <div className="flex flex-col items-end text-right">
-                            <span className="text-lg font-semibold text-sky-300">
-                              {meal.rating.toFixed(1)}
-                            </span>
-                            <span className="text-[0.7rem] uppercase tracking-[0.22em] text-slate-500">
-                              out of 5
-                            </span>
+                            <div className="flex gap-0.5 text-sm">
+                              {Array.from({ length: 5 }).map((_, index) => (
+                                <span
+                                  key={index}
+                                  className={`${
+                                    meal.rating >= index + 1
+                                      ? "text-sky-300"
+                                      : "text-slate-600"
+                                  }`}
+                                >
+                                  ★
+                                </span>
+                              ))}
+                            </div>
                           </div>
                         </div>
                         {meal.description && (
@@ -426,6 +478,11 @@ export default function Home() {
                             {meal.description}
                           </p>
                         )}
+                        <div className="mt-1 flex flex-wrap items-center gap-2 text-[0.7rem] text-slate-400">
+                          <span className="rounded-full border border-slate-700 bg-slate-950/70 px-2 py-0.5">
+                            Crowd: {meal.crowd}
+                          </span>
+                        </div>
                       </div>
                       {meal.imageUrl ? (
                         <div className="relative overflow-hidden rounded-lg border border-slate-800/70 bg-slate-950/60">
@@ -448,13 +505,8 @@ export default function Home() {
           </div>
         </section>
 
-        <footer className="flex flex-wrap items-center justify-between gap-3 border-t border-slate-800/80 pt-4 text-[0.7rem] text-slate-500">
-          <p>
-            Built for Columbia students tracking dining hall highlights, lowlights, and everything in between.
-          </p>
-          <p className="text-right">
-            Designed for minimal distraction, with Columbia blue accents and gentle dark tones.
-          </p>
+        <footer className="mt-4 border-t border-slate-800/80 pt-4 text-center text-[0.7rem] text-slate-500">
+          <p>RoareeReview is your personal log for Columbia dining hall meals.</p>
         </footer>
       </div>
     </main>
