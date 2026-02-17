@@ -2,6 +2,7 @@
 "use client";
 
 import { useMemo, useState } from "react";
+import Link from "next/link";
 
 type Timeframe = "week" | "month" | "year";
 
@@ -143,9 +144,17 @@ export default function CrackdRewindPage() {
       <div className="mx-auto flex min-h-screen max-w-6xl flex-col gap-8 px-4 pb-10 pt-10 sm:px-6 lg:px-10">
         <header className="flex flex-col gap-6 sm:flex-row sm:items-end sm:justify-between">
           <div className="space-y-4">
-            <div className="inline-flex items-center gap-2 rounded-full border border-sky-500/40 bg-sky-500/10 px-3 py-1 text-[0.68rem] font-medium uppercase tracking-[0.2em] text-sky-200">
-              <span className="h-1.5 w-1.5 rounded-full bg-sky-400" />
-              <span>Crackd Rewind</span>
+            <div className="flex items-center gap-3">
+              <div className="inline-flex items-center gap-2 rounded-full border border-sky-500/40 bg-sky-500/10 px-3 py-1 text-[0.68rem] font-medium uppercase tracking-[0.2em] text-sky-200">
+                <span className="h-1.5 w-1.5 rounded-full bg-sky-400" />
+                <span>Crackd Rewind</span>
+              </div>
+              <Link
+                href="/data"
+                className="rounded-full border border-slate-700 bg-slate-900/60 px-3 py-1 text-[0.68rem] font-medium uppercase tracking-[0.2em] text-slate-300 transition hover:border-sky-500/40 hover:bg-sky-500/10 hover:text-sky-200"
+              >
+                View Data
+              </Link>
             </div>
             <div className="space-y-2">
               <h1 className="text-balance text-3xl font-semibold tracking-tight sm:text-4xl lg:text-5xl">
@@ -157,7 +166,7 @@ export default function CrackdRewindPage() {
               </h1>
               <p className="max-w-xl text-sm text-slate-300 sm:text-base">
                 A visual mixtape of the captions, communities, and humor flavors
-                that defined a random slice of Crackd.
+                that defined a random slice of Crackd (I stole this from Spotify Wrapped).
               </p>
             </div>
           </div>
