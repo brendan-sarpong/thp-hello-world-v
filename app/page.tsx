@@ -608,15 +608,15 @@ export default async function CrackdRewindPage({
 
           <div className="mb-8 space-y-4">
             <h1 className="text-4xl font-semibold tracking-tight sm:text-5xl lg:text-6xl">
-              Your {timeframe} in{' '}
+              An analysis of your
               <span className="bg-gradient-to-r from-sky-300 via-sky-400 to-fuchsia-400 bg-clip-text text-transparent">
                 unhinged captions
               </span>
               .
             </h1>
             <p className="max-w-2xl text-base text-slate-300 sm:text-lg">
-              A visual mixtape of the captions, communities, and humor flavors
-              that defined a random slice of Crackd (I stole this from Spotify Wrapped.).
+              A visualizer of the data
+              that defines Crackd (I stole this from Spotify Wrapped. Some data is placeholder values).
             </p>
           </div>
 
