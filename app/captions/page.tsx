@@ -6,11 +6,11 @@ import VoteButtons from './VoteButtons'
 import ImageUploadAndGenerate from './ImageUploadAndGenerate'
 
 function getCaptionText(caption: any) {
-  return caption.content ?? caption.text ?? ''
+  return caption.content ?? ''
 }
 
 function getCaptionDate(caption: any) {
-  const value = caption.created_datetime_utc ?? caption.created_at
+  const value = caption.created_datetime_utc
   if (!value) return null
   const d = new Date(value)
   return Number.isNaN(d.getTime()) ? null : d
@@ -32,7 +32,7 @@ export default async function CaptionsPage() {
   const { data: captions, error } = await supabase
     .from('captions')
     .select(
-      'id, content, text, created_at, created_datetime_utc, image_id, profile_id, humor_flavor_id, is_featured, is_public, like_count',
+      'id, content, created_datetime_utc, is_public, is_featured, like_count',
     )
     .limit(50)
 
