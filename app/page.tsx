@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars, @typescript-eslint/no-explicit-any, prefer-const */
 import { supabase } from '@/lib/supabaseClient'
 import Link from 'next/link'
 import { Suspense } from 'react'
@@ -582,68 +583,46 @@ async function RewindContent({ timeframe }: { timeframe: Timeframe }) {
   )
 }
 
-export default async function CrackdRewindPage({
-  searchParams,
-}: {
-  searchParams: { timeframe?: string }
-}) {
-  const timeframe = (searchParams?.timeframe as Timeframe) || 'week'
-
+export default function CrackdRewindPage() {
   return (
     <main className="min-h-screen bg-slate-950 text-slate-50">
-      <div className="mx-auto max-w-5xl px-4 pb-16 pt-12 sm:px-6 lg:px-10">
-        <header className="mb-12">
-          <div className="mb-6 flex items-center gap-3">
-            <div className="inline-flex items-center gap-2 rounded-full border border-sky-500/40 bg-sky-500/10 px-4 py-1.5 text-xs font-medium uppercase tracking-[0.2em] text-sky-200">
-              <span className="h-1.5 w-1.5 rounded-full bg-sky-400" />
-              <span>Crackd Rewind</span>
-            </div>
+      <div className="mx-auto max-w-3xl px-4 py-16 sm:px-6">
+        <div className="rounded-3xl border border-slate-800 bg-slate-900/40 p-8">
+          <h1 className="text-4xl font-semibold tracking-tight sm:text-5xl">
+            The Humor Project
+          </h1>
+          <p className="mt-3 text-slate-300">
+            This Next.js app demonstrates the THP assignments: reading from
+            Supabase, protecting routes with Google OAuth, voting on captions,
+            and generating captions from uploaded images.
+          </p>
+
+          <div className="mt-8 flex flex-wrap gap-3">
+            <Link
+              href="/captions"
+              className="rounded-full bg-sky-500 px-5 py-2.5 text-sm font-medium text-slate-950 transition hover:bg-sky-400"
+            >
+              View Captions
+            </Link>
+            <Link
+              href="/auth/sign-in"
+              className="rounded-full border border-slate-700 bg-slate-900/60 px-5 py-2.5 text-sm font-medium text-slate-200 transition hover:border-sky-500/40 hover:bg-sky-500/10 hover:text-sky-100"
+            >
+              Sign in (Google)
+            </Link>
             <Link
               href="/data"
-              className="rounded-full border border-slate-700 bg-slate-900/60 px-4 py-1.5 text-xs font-medium uppercase tracking-[0.2em] text-slate-300 transition hover:border-sky-500/40 hover:bg-sky-500/10 hover:text-sky-200"
+              className="rounded-full border border-slate-700 bg-slate-900/60 px-5 py-2.5 text-sm font-medium text-slate-200 transition hover:border-sky-500/40 hover:bg-sky-500/10 hover:text-sky-100"
             >
-              View Data
+              Data Explorer
             </Link>
           </div>
 
-          <div className="mb-8 space-y-4">
-            <h1 className="text-4xl font-semibold tracking-tight sm:text-5xl lg:text-6xl">
-              An analysis of your
-              <span className="bg-gradient-to-r from-sky-300 via-sky-400 to-fuchsia-400 bg-clip-text text-transparent">
-                unhinged captions
-              </span>
-              .
-            </h1>
-            <p className="max-w-2xl text-base text-slate-300 sm:text-lg">
-              A visualizer of the data
-              that defines Crackd (I stole this from Spotify Wrapped. Some data is placeholder values).
-            </p>
-          </div>
-
-          <div className="flex items-center gap-4">
-            <Suspense fallback={<div className="h-10 w-32 rounded-full bg-slate-900/60" />}>
-              <TimeframeSelector />
-            </Suspense>
-            <p className="text-sm text-slate-500">
-              {timeframe === 'week'
-                ? 'Last Week'
-                : timeframe === 'month'
-                ? 'Last Month'
-                : 'Last Year'}
-            </p>
-          </div>
-        </header>
-
-        <Suspense
-          fallback={
-            <div className="rounded-3xl border border-slate-800 bg-slate-950/80 p-12 text-center">
-              <p className="text-slate-400">Loading rewind data...</p>
-            </div>
-          }>
-          <div className="space-y-8">
-            <RewindContent timeframe={timeframe} />
-          </div>
-        </Suspense>
+          <p className="mt-6 text-sm text-slate-500">
+            Captions are protected. If you are not signed in, you will be
+            redirected to the Google OAuth flow.
+          </p>
+        </div>
       </div>
     </main>
   )
