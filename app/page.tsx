@@ -585,42 +585,49 @@ async function RewindContent({ timeframe }: { timeframe: Timeframe }) {
 
 export default function CrackdRewindPage() {
   return (
-    <main className="min-h-screen bg-slate-950 text-slate-50">
-      <div className="mx-auto max-w-3xl px-4 py-16 sm:px-6">
-        <div className="rounded-3xl border border-slate-800 bg-slate-900/40 p-8">
+    <main className="relative min-h-screen overflow-hidden bg-slate-950 text-slate-50">
+      <div
+        aria-hidden="true"
+        className="pointer-events-none absolute inset-0 opacity-60"
+      >
+        <div className="absolute left-1/2 top-[-140px] h-80 w-[52rem] -translate-x-1/2 rounded-full bg-gradient-to-r from-sky-300/20 via-fuchsia-300/20 to-emerald-300/20 blur-3xl animate-gradient-shift" />
+        <div className="absolute bottom-[-200px] left-[-120px] h-80 w-80 rounded-full bg-sky-300/15 blur-3xl animate-float-slow" />
+        <div className="absolute bottom-[-210px] right-[-140px] h-96 w-96 rounded-full bg-fuchsia-300/10 blur-3xl animate-float-slow" />
+      </div>
+
+      <div className="relative mx-auto max-w-3xl px-4 py-16 sm:px-6">
+        <div className="rounded-3xl border border-slate-800/70 bg-gradient-to-br from-slate-900/70 via-slate-900/30 to-slate-900/70 p-8 shadow-[0_30px_90px_rgba(0,0,0,0.55)] backdrop-blur transition-transform duration-300 ease-out hover:-translate-y-0.5">
           <h1 className="text-4xl font-semibold tracking-tight sm:text-5xl">
             The Humor Project
           </h1>
-          <p className="mt-3 text-slate-300">
-            This Next.js app demonstrates the THP assignments: reading from
-            Supabase, protecting routes with Google OAuth, voting on captions,
-            and generating captions from uploaded images.
+          <p className="mt-3 max-w-xl text-slate-300">
+            Discover community captions, vote for your favorites, and generate
+            new captions from an image.
           </p>
 
           <div className="mt-8 flex flex-wrap gap-3">
             <Link
               href="/captions"
-              className="rounded-full bg-sky-500 px-5 py-2.5 text-sm font-medium text-slate-950 transition hover:bg-sky-400"
+              className="rounded-full bg-gradient-to-r from-sky-300 to-fuchsia-300 px-5 py-2.5 text-sm font-semibold text-slate-950 transition-all duration-300 ease-out hover:translate-y-[-1px] hover:shadow-[0_0_0_4px_rgba(56,189,248,0.12)]"
             >
               View Captions
             </Link>
             <Link
               href="/auth/sign-in"
-              className="rounded-full border border-slate-700 bg-slate-900/60 px-5 py-2.5 text-sm font-medium text-slate-200 transition hover:border-sky-500/40 hover:bg-sky-500/10 hover:text-sky-100"
+              className="rounded-full border border-slate-700/70 bg-slate-900/60 px-5 py-2.5 text-sm font-medium text-slate-200 transition-all duration-300 ease-out hover:-translate-y-0.5 hover:border-sky-300/40 hover:bg-sky-400/10 hover:text-sky-100"
             >
               Sign in (Google)
             </Link>
             <Link
               href="/data"
-              className="rounded-full border border-slate-700 bg-slate-900/60 px-5 py-2.5 text-sm font-medium text-slate-200 transition hover:border-sky-500/40 hover:bg-sky-500/10 hover:text-sky-100"
+              className="rounded-full border border-slate-700/70 bg-slate-900/60 px-5 py-2.5 text-sm font-medium text-slate-200 transition-all duration-300 ease-out hover:-translate-y-0.5 hover:border-sky-300/40 hover:bg-sky-400/10 hover:text-sky-100"
             >
               Data Explorer
             </Link>
           </div>
 
           <p className="mt-6 text-sm text-slate-500">
-            Captions are protected. If you are not signed in, you will be
-            redirected to the Google OAuth flow.
+            Sign in to vote and generate captions.
           </p>
         </div>
       </div>

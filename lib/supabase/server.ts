@@ -1,6 +1,10 @@
 import { createServerClient } from '@supabase/ssr'
 import { cookies } from 'next/headers'
 
+type CookieStoreWithSet = {
+  set: (cookie: { name: string; value: string } & Record<string, unknown>) => void
+}
+
 const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL
 const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
 
@@ -16,8 +20,7 @@ if (!supabaseUrl || !supabaseAnonKey) {
  *   cannot always mutate response headers. Route handlers still work correctly.
  */
 export async function createSupabaseServerClient() {
-  // In this Next.js setup, `cookies()` is typed as async.
-  // We await once so Supabase's cookie helpers always see the resolved store.
+ 
   const cookieStore = await cookies()
 
   return createServerClient(supabaseUrl!, supabaseAnonKey!, {
@@ -28,7 +31,11 @@ export async function createSupabaseServerClient() {
       setAll(cookiesToSet) {
         try {
           cookiesToSet.forEach(({ name, value, options }) => {
-            ;(cookieStore as any).set({ name, value, ...options })
+            ;(cookieStore as unknown as CookieStoreWithSet).set({
+              name,
+              value,
+              ...options,
+            })
           })
         } catch {
           // Best-effort: if cookie writes aren't allowed, auth calls may fail gracefully.

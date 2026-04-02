@@ -62,16 +62,20 @@ export default async function CaptionsPage() {
   }
 
   return (
-    <main className="min-h-screen bg-slate-950 text-slate-50">
-      <div className="mx-auto max-w-5xl px-4 py-12 sm:px-6">
+    <main className="relative min-h-screen overflow-hidden bg-slate-950 text-slate-50">
+      <div aria-hidden="true" className="pointer-events-none absolute inset-0 opacity-50">
+        <div className="absolute left-1/2 top-[-120px] h-80 w-[56rem] -translate-x-1/2 rounded-full bg-gradient-to-r from-sky-300/15 via-fuchsia-300/15 to-emerald-300/15 blur-3xl animate-gradient-shift" />
+      </div>
+
+      <div className="relative mx-auto max-w-5xl px-4 py-12 sm:px-6">
         <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
           <header>
             <h1 className="text-3xl font-semibold tracking-tight sm:text-4xl">
               Captions
             </h1>
             <p className="mt-2 text-slate-300">
-              Authenticated view. Next tasks add voting and image-caption
-              generation.
+              Vote for captions you like, and generate new ones from an
+              uploaded image.
             </p>
           </header>
 
@@ -100,7 +104,7 @@ export default async function CaptionsPage() {
             return (
               <article
                 key={caption.id}
-                className="rounded-3xl border border-slate-800 bg-slate-900/40 p-5"
+                className="group rounded-3xl border border-slate-800/70 bg-gradient-to-br from-slate-900/55 via-slate-900/30 to-slate-900/55 p-5 transition-transform duration-300 ease-out hover:-translate-y-0.5 hover:border-sky-300/25"
               >
                 <div className="flex items-start justify-between gap-4">
                   <div className="min-w-0 flex-1">
@@ -109,7 +113,7 @@ export default async function CaptionsPage() {
                     </p>
                   </div>
                   {caption.is_featured && (
-                    <span className="shrink-0 rounded-full bg-emerald-500/20 px-2 py-1 text-xs font-semibold text-emerald-300">
+                    <span className="shrink-0 rounded-full bg-emerald-500/20 px-2 py-1 text-xs font-semibold text-emerald-300 shadow-[0_0_0_4px_rgba(52,211,153,0.08)] transition-shadow duration-300">
                       Featured
                     </span>
                   )}

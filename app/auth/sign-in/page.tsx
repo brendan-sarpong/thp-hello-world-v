@@ -8,7 +8,11 @@ export default function SignInPage() {
   const router = useRouter()
   const [userEmail, setUserEmail] = useState<string | null>(null)
   const [errorMessage, setErrorMessage] = useState<string | null>(null)
-  const [oauthError, setOauthError] = useState<string | null>(null)
+  const [oauthError] = useState<string | null>(() => {
+    if (typeof window === 'undefined') return null
+    const params = new URLSearchParams(window.location.search)
+    return params.get('error')
+  })
   const [loading, setLoading] = useState(false)
 
   useEffect(() => {
@@ -19,11 +23,6 @@ export default function SignInPage() {
   }, [])
 
   const displayedError = errorMessage || oauthError
-
-  useEffect(() => {
-    const params = new URLSearchParams(window.location.search)
-    setOauthError(params.get('error'))
-  }, [])
 
   async function signInWithGoogle() {
     setLoading(true)
@@ -55,9 +54,13 @@ export default function SignInPage() {
   }
 
   return (
-    <main className="min-h-screen bg-slate-950 text-slate-50">
-      <div className="mx-auto max-w-xl px-4 py-16 sm:px-6">
-        <div className="rounded-3xl border border-slate-800 bg-slate-900/40 p-8">
+    <main className="relative min-h-screen overflow-hidden bg-slate-950 text-slate-50">
+      <div aria-hidden="true" className="pointer-events-none absolute inset-0 opacity-50">
+        <div className="absolute left-1/2 top-[-140px] h-80 w-[56rem] -translate-x-1/2 rounded-full bg-gradient-to-r from-sky-300/15 via-fuchsia-300/15 to-emerald-300/15 blur-3xl animate-gradient-shift" />
+      </div>
+
+      <div className="relative mx-auto max-w-xl px-4 py-16 sm:px-6">
+        <div className="rounded-3xl border border-slate-800/70 bg-gradient-to-br from-slate-900/70 via-slate-900/30 to-slate-900/70 p-8 backdrop-blur shadow-[0_30px_90px_rgba(0,0,0,0.45)]">
           <h1 className="text-3xl font-semibold tracking-tight">Sign in</h1>
           <p className="mt-2 text-slate-300">
             Use your Google account to access the caption rating and image
@@ -70,7 +73,7 @@ export default function SignInPage() {
               <button
                 onClick={signOut}
                 disabled={loading}
-                className="w-full rounded-full bg-slate-800 px-4 py-2.5 text-sm font-medium text-slate-50 transition hover:bg-slate-700 disabled:opacity-50"
+                className="w-full rounded-full bg-slate-800/70 px-4 py-2.5 text-sm font-medium text-slate-50 transition-all duration-300 ease-out hover:-translate-y-0.5 hover:bg-slate-800 disabled:opacity-50"
               >
                 {loading ? 'Signing out…' : 'Sign out'}
               </button>
@@ -80,7 +83,7 @@ export default function SignInPage() {
               <button
                 onClick={signInWithGoogle}
                 disabled={loading}
-                className="w-full rounded-full bg-sky-500 px-4 py-2.5 text-sm font-medium text-slate-950 transition hover:bg-sky-400 disabled:opacity-50"
+                className="w-full rounded-full bg-gradient-to-r from-sky-400 via-fuchsia-300 to-emerald-300 px-4 py-2.5 text-sm font-semibold text-slate-950 transition-all duration-300 ease-out hover:translate-y-[-1px] hover:shadow-[0_0_0_4px_rgba(56,189,248,0.10)] disabled:opacity-50"
               >
                 {loading ? 'Redirecting…' : 'Continue with Google'}
               </button>

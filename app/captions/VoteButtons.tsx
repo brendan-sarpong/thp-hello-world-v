@@ -36,7 +36,7 @@ export default function VoteButtons({ captionId }: { captionId: string }) {
           type="button"
           onClick={() => submit(1, 'up')}
           disabled={loading !== null}
-          className="flex-1 rounded-full bg-emerald-500/20 px-3 py-2 text-xs font-semibold text-emerald-200 transition hover:bg-emerald-500/25 disabled:opacity-50"
+          className="flex-1 rounded-full bg-emerald-500/20 px-3 py-2 text-xs font-semibold text-emerald-200 transition-all duration-300 ease-out hover:-translate-y-0.5 hover:bg-emerald-500/25 disabled:opacity-50"
         >
           {loading === 'up' ? 'Upvoting…' : 'Upvote'}
         </button>
@@ -44,7 +44,7 @@ export default function VoteButtons({ captionId }: { captionId: string }) {
           type="button"
           onClick={() => submit(-1, 'down')}
           disabled={loading !== null}
-          className="flex-1 rounded-full bg-red-500/20 px-3 py-2 text-xs font-semibold text-red-200 transition hover:bg-red-500/25 disabled:opacity-50"
+          className="flex-1 rounded-full bg-red-500/20 px-3 py-2 text-xs font-semibold text-red-200 transition-all duration-300 ease-out hover:-translate-y-0.5 hover:bg-red-500/25 disabled:opacity-50"
         >
           {loading === 'down' ? 'Downvoting…' : 'Downvote'}
         </button>

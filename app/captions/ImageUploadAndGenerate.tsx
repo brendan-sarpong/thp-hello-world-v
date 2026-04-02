@@ -121,7 +121,7 @@ export default function ImageUploadAndGenerate() {
   }
 
   return (
-    <section className="mt-10 rounded-3xl border border-slate-800 bg-slate-900/40 p-6">
+    <section className="mt-10 rounded-3xl border border-slate-800/70 bg-gradient-to-br from-slate-900/55 via-slate-900/30 to-slate-900/55 p-6 transition-transform duration-300 ease-out hover:-translate-y-0.5">
       <div className="flex flex-col gap-2 sm:flex-row sm:items-start sm:justify-between">
         <div>
           <h2 className="text-xl font-semibold">Generate Captions</h2>
@@ -157,7 +157,7 @@ export default function ImageUploadAndGenerate() {
           type="button"
           onClick={onGenerate}
           disabled={!file || loading}
-          className="h-10 w-full rounded-full bg-sky-500 px-5 text-sm font-semibold text-slate-950 transition hover:bg-sky-400 disabled:opacity-50 sm:w-auto"
+          className="h-10 w-full rounded-full bg-gradient-to-r from-sky-400 via-fuchsia-300 to-emerald-300 px-5 text-sm font-semibold text-slate-950 transition-all duration-300 ease-out hover:translate-y-[-1px] hover:shadow-[0_0_0_4px_rgba(168,85,247,0.12)] disabled:opacity-50 sm:w-auto"
         >
           {loading ? 'Generating…' : 'Generate Captions'}
         </button>
