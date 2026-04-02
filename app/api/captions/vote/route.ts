@@ -32,9 +32,12 @@ export async function POST(request: Request) {
     )
   }
 
+  // `caption_votes.profile_id` is NOT NULL in your schema, so we associate the
+  // vote with the currently authenticated user's profile.
   const { error } = await supabase.from('caption_votes').insert({
     caption_id: captionId,
     vote_value: voteValue,
+    profile_id: user.id,
   })
 
   if (error) {

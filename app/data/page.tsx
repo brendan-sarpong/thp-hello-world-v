@@ -21,33 +21,6 @@ export default async function DataPage() {
     supabase.from('images').select('*').limit(10),
   ])
 
-  const errors = [
-    profilesRes.error,
-    captionsRes.error,
-    captionLikesRes.error,
-    captionVotesRes.error,
-    humorFlavorsRes.error,
-    communitiesRes.error,
-    imagesRes.error,
-  ].filter(Boolean)
-
-  if (errors.length > 0) {
-    return (
-      <main className="min-h-screen bg-slate-950 text-slate-50">
-        <div className="mx-auto max-w-6xl px-4 py-10 sm:px-6 lg:px-10">
-          <div className="rounded-3xl border border-red-500/40 bg-red-950/20 p-6">
-            <h1 className="mb-2 text-xl font-semibold text-red-300">
-              Error loading data
-            </h1>
-            <pre className="overflow-auto text-sm text-red-200">
-              {JSON.stringify(errors, null, 2)}
-            </pre>
-          </div>
-        </div>
-      </main>
-    )
-  }
-
   return (
     <main className="min-h-screen bg-slate-950 text-slate-50">
       <div className="mx-auto max-w-6xl px-4 py-10 sm:px-6 lg:px-10">
@@ -78,36 +51,43 @@ export default async function DataPage() {
             title="Profiles"
             data={profilesRes.data || []}
             description="User profiles from the Crackd platform"
+            error={profilesRes.error}
           />
           <Section
             title="Captions"
             data={captionsRes.data || []}
             description="Generated captions with humor flavors and lineage"
+            error={captionsRes.error}
           />
           <Section
             title="Caption Likes"
             data={captionLikesRes.data || []}
             description="Like interactions from almostcrackd.ai"
+            error={captionLikesRes.error}
           />
           <Section
             title="Caption Votes"
             data={captionVotesRes.data || []}
             description="Up/down votes from slightlyhumorous.org"
+            error={captionVotesRes.error}
           />
           <Section
             title="Humor Flavors"
             data={humorFlavorsRes.data || []}
             description="Named generation strategies from The Matrix"
+            error={humorFlavorsRes.error}
           />
           <Section
             title="Communities"
             data={communitiesRes.data || []}
             description="Bounded social groups with cultural context"
+            error={communitiesRes.error}
           />
           <Section
             title="Images"
             data={imagesRes.data || []}
             description="Hosted visual assets with cached AI metadata"
+            error={imagesRes.error}
           />
         </div>
       </div>
@@ -119,10 +99,12 @@ function Section({
   title,
   data,
   description,
+  error,
 }: {
   title: string
   data: any[]
   description?: string
+  error?: any
 }) {
   if (data.length === 0) {
     return (
@@ -139,7 +121,14 @@ function Section({
           </span>
         </div>
         <div className="rounded-2xl border border-dashed border-slate-800 bg-slate-900/40 p-8 text-center">
-          <p className="text-sm text-slate-500">No data available</p>
+          <p className="text-sm text-slate-500">
+            {error ? 'Table not available or failed to load' : 'No data available'}
+          </p>
+          {error && (
+            <pre className="mt-3 overflow-auto text-[0.7rem] text-slate-300">
+              {JSON.stringify(error, null, 2)}
+            </pre>
+          )}
         </div>
       </div>
     )
